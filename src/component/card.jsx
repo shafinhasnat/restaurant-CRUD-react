@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import CardMarkup from "./common/cardMarkup";
 import firebase from "./../firestore";
 import Form from "./form";
-const db = firebase.firestore();
 
+const db = firebase.firestore();
 class Card extends Form {
   state = {
     restaurant: [],
@@ -12,7 +12,9 @@ class Card extends Form {
       location: "",
       intro: "",
     },
+    newId: "",
   };
+  fetchData = () => {};
   componentDidMount = () => {
     db.collection("Restaurant")
       .get()
@@ -20,15 +22,11 @@ class Card extends Form {
         const data = snap.docs.map((doc) => {
           return { id: doc.id, ...doc.data() };
         });
+        // console.log(data);
         this.setState({ restaurant: data });
       });
   };
-  handleDelete = (e) => {
-    const restaurant = this.state.restaurant.filter((a) => a.id !== e);
-    console.log(restaurant);
-    this.setState({ restaurant });
-    db.collection("Restaurant").doc(e).delete();
-  };
+
   render() {
     return (
       <div>
